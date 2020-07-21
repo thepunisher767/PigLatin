@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
 
 namespace PigLatin
@@ -12,7 +13,7 @@ namespace PigLatin
             while (continueFlag)
             {
                 Console.Write("Enter a line to be translated: ");
-                Translator(StringValidation(Console.ReadLine().ToLower()));
+                Translator(StringValidation(Console.ReadLine()));
                 Console.Write("\n\nTranslate another line? (y/n): ");
                 string userContinue = YesOrNo(Console.ReadLine());
                 if (userContinue == "n")
@@ -23,13 +24,6 @@ namespace PigLatin
             Console.WriteLine("OK BYEEEEEE!");
         }
 
-        public static bool CheckRegex(string userInput)
-        {
-            Regex checkSpecialAndNumbers = new Regex(@"^[a-zA-Z]*$");
-            bool noSpecialorNumbers = checkSpecialAndNumbers.IsMatch(userInput);
-            return noSpecialorNumbers;
-        }
-
         public static string[] ToArray(string userInput)
         {
             string[] words = userInput.Split(' ');
@@ -38,22 +32,28 @@ namespace PigLatin
 
         public static void Translator(string userInput)
         {
+            Regex firstCap = new Regex(@"^[A-Z][a-z]*$");
+            Regex allCaps = new Regex(@"^[A-Z]*$");
+            Regex checkSpecialAndNumbers = new Regex(@"^[a-zA-Z]*$");
+
             char[] vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
             string[] wordArray = ToArray(userInput);    //Create an array to store individual words from userInput
             for (int i = 0; i < wordArray.Length; i++)
             {
-                bool noSpecialOrNumbers = CheckRegex(wordArray[i]); //Check if this passes the regex
+                bool noSpecialOrNumbers = checkSpecialAndNumbers.IsMatch(wordArray[i]); //Check if this passes the regex
+                bool firstCapCheck = firstCap.IsMatch(wordArray[i]);
+                bool allCapsCheck = allCaps.IsMatch(wordArray[i]);
 
                 if (noSpecialOrNumbers == true) //if there are no special characters or number, do the IF
                 {
                     if (wordArray[i].IndexOfAny(vowels) == 0)   //Checks if first index is vowel
                     {
                         wordArray[i] = wordArray[i] + "way";
-                        Console.Write($"{wordArray[i]}");
+                        //Console.Write($"{wordArray[i]}");
                     }
                     else if (wordArray[i].IndexOfAny(vowels) == -1) //will return -1 if no vowels are found. This prevents exceptions from the Substrings below
                     {
-                        Console.Write($"{wordArray[i]}");
+                        //Console.Write($"{wordArray[i]}");
                     }
                     else
                     {
@@ -61,13 +61,27 @@ namespace PigLatin
                         //Console.WriteLine(firstVowelIndex);
                         string trimFront = wordArray[i].Substring(0, firstVowelIndex);
                         string trimEnd = wordArray[i].Substring(firstVowelIndex);
-                        Console.Write($"{trimEnd}{trimFront}ay");
+                        wordArray[i] = trimEnd + trimFront + "ay";
+                        //Console.Write($"{trimEnd}{trimFront}ay");
                     }                   
+                }
+                if (firstCapCheck)
+                {
+
+                    char letter = Char.ToUpper(wordArray[i][0]);
+                    wordArray[i] = letter + wordArray[i].Substring(1).ToLower();
+                }
+                else if (allCapsCheck)
+                {
+                    wordArray[i] = wordArray[i].ToUpper();
                 }
                 else
                 {
-                    Console.Write($"{wordArray[i]}");   //just write the word if there are special/numbers
+                    wordArray[i] = wordArray[i].ToLower();
                 }
+
+                Console.Write($"{wordArray[i]}");   //just write the word if there are special/numbers
+
                 if (i < wordArray.Length - 1)   //Add space after each word, unless it is the last one
                 {
                     Console.Write(" ");
@@ -83,8 +97,8 @@ namespace PigLatin
 
         public static string StringValidation(string input)   //Check for valid input
         {
-            Regex spaces = new Regex(@"^[ ]*$");
-            while (string.IsNullOrEmpty(input) || spaces.IsMatch(input))
+            Regex spacesOnly = new Regex(@"^[ ]*$");
+            while (string.IsNullOrEmpty(input) || spacesOnly.IsMatch(input))
             {
                 Console.Write($"Please enter an string...: ");
                 input = Console.ReadLine();
