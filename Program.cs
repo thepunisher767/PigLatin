@@ -23,6 +23,12 @@ namespace PigLatin
             Console.WriteLine("OK BYEEEEEE!");
         }
 
+        public static bool CheckRegex(string userInput)
+        {
+            Regex checkSpecialAndNumbers = new Regex(@"^[a-zA-Z]*$");
+            bool noSpecialorNumbers = checkSpecialAndNumbers.IsMatch(userInput);
+            return noSpecialorNumbers;
+        }
 
         public static string[] ToArray(string userInput)
         {
@@ -36,26 +42,42 @@ namespace PigLatin
             string[] wordArray = ToArray(userInput);    //Create an array to store individual words
             for (int i = 0; i < wordArray.Length; i++)
             {
-                if (wordArray[i].IndexOfAny(vowels) == 0)   //Checks if first index is vowel
+                bool noSpecialOrNumbers = CheckRegex(wordArray[i]); //Check if this passes the regex
+
+                if (noSpecialOrNumbers == true)
                 {
-                    wordArray[i] = wordArray[i] + "way";
-                    Console.Write($"{wordArray[i]}");
-                }
-                else if (wordArray[i].Length == 1)          //checks for single char consonant, as my Substring below was throwing exceptions for these odd cases due to length.
-                {
-                    Console.Write($"{wordArray[i]}");
+                    if (wordArray[i].IndexOfAny(vowels) == 0)   //Checks if first index is vowel
+                    {
+                        wordArray[i] = wordArray[i] + "way";
+                        Console.Write($"{wordArray[i]}");
+                    }
+                    else if (wordArray[i].IndexOfAny(vowels) == -1) //will return -1 if no vowels are found. This prevents exceptions from the Substrings below
+                    {
+                        Console.Write($"{wordArray[i]}");
+                    }
+                    else
+                    {
+                        int firstVowelIndex = wordArray[i].IndexOfAny(vowels); //Get index of first vowel
+                                                                               //Console.WriteLine(firstVowelIndex);
+                        string trimFront = wordArray[i].Substring(0, firstVowelIndex);
+                        string trimEnd = wordArray[i].Substring(firstVowelIndex);
+                        Console.Write($"{trimEnd}{trimFront}ay");
+                    }                   
                 }
                 else
                 {
-                    int firstVowelIndex = wordArray[i].IndexOfAny(vowels); //Get index of first vowel
-                    //Console.WriteLine(firstVowelIndex);
-                    string trimFront = wordArray[i].Substring(0, firstVowelIndex);
-                    string trimEnd = wordArray[i].Substring(firstVowelIndex);
-                    Console.Write($"{trimEnd}{trimFront}ay");
+                    Console.Write($"{wordArray[i]}");
                 }
-                Console.Write(" ");
+                if (i < wordArray.Length - 1)
+                {
+                    Console.Write(" ");
+                }
+                else
+                {
+                    Console.Write(".");
+                }
             }
-            Console.Write(".");
+            //Console.Write(".");
             return;
         }
 
