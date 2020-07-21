@@ -1,0 +1,13 @@
+C:\devbuild4\PigLatin\bin\Debug\netcoreapp3.1\PigLatin.exe
+C:\devbuild4\PigLatin\bin\Debug\netcoreapp3.1\PigLatin.deps.json
+C:\devbuild4\PigLatin\bin\Debug\netcoreapp3.1\PigLatin.runtimeconfig.json
+C:\devbuild4\PigLatin\bin\Debug\netcoreapp3.1\PigLatin.runtimeconfig.dev.json
+C:\devbuild4\PigLatin\bin\Debug\netcoreapp3.1\PigLatin.dll
+C:\devbuild4\PigLatin\bin\Debug\netcoreapp3.1\PigLatin.pdb
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.csprojAssemblyReference.cache
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.AssemblyInfoInputs.cache
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.AssemblyInfo.cs
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.csproj.CoreCompileInputs.cache
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.dll
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.pdb
+C:\devbuild4\PigLatin\obj\Debug\netcoreapp3.1\PigLatin.genruntimeconfig.cache
